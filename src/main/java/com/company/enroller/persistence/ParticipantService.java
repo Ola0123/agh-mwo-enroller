@@ -17,9 +17,23 @@ public class ParticipantService {
 		connector = DatabaseConnector.getInstance();
 	}
 
-	public Collection<Participant> getAll() {
+	public Collection<Participant> getAll(
+			String sortBy, String sortOrder) {
+
 		String hql = "FROM Participant";
-		Query query = connector.getSession().createQuery(hql);
+
+		if ("login".equalsIgnoreCase(sortBy)) {
+
+			if ("DESC".equalsIgnoreCase(sortOrder)) {
+				hql += " ORDER BY login DESC";
+			} else {
+				hql += " ORDER BY login ASC";
+			}
+		}
+
+		Query<Participant> query = connector.getSession()
+				.createQuery(hql, Participant.class);
+
 		return query.list();
 	}
 
