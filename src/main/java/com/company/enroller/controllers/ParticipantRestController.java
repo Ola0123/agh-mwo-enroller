@@ -26,10 +26,11 @@ public class ParticipantRestController {
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ResponseEntity<?> getParticipants(
 			@RequestParam(value = "sortBy", defaultValue = "") String sortBy,
-			@RequestParam(value = "sortOrder", defaultValue = "ASC") String sortOrder) {
+			@RequestParam(value = "sortOrder", defaultValue = "ASC") String sortOrder,
+			@RequestParam(value = "key", defaultValue = "") String key) {
 
 		Collection<Participant> participants =
-				participantService.getAll(sortBy, sortOrder);
+				participantService.getAll(sortBy, sortOrder, key);
 
 		return new ResponseEntity<Collection<Participant>>(
 				participants, HttpStatus.OK);

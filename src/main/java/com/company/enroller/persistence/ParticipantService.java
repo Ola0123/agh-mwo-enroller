@@ -18,12 +18,11 @@ public class ParticipantService {
 	}
 
 	public Collection<Participant> getAll(
-			String sortBy, String sortOrder) {
+			String sortBy, String sortOrder, String key) {
 
-		String hql = "FROM Participant";
+		String hql = "FROM Participant WHERE login LIKE :key";
 
 		if ("login".equalsIgnoreCase(sortBy)) {
-
 			if ("DESC".equalsIgnoreCase(sortOrder)) {
 				hql += " ORDER BY login DESC";
 			} else {
@@ -33,6 +32,8 @@ public class ParticipantService {
 
 		Query<Participant> query = connector.getSession()
 				.createQuery(hql, Participant.class);
+
+		query.setParameter("key", "%" + key + "%");
 
 		return query.list();
 	}
