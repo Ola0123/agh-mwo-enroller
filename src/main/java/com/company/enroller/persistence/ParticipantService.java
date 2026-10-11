@@ -47,4 +47,30 @@ public class ParticipantService {
 		}
 	}
 
+	public void delete(Participant participant) {
+		Transaction transaction =
+				connector.getSession().beginTransaction();
+
+		try {
+			connector.getSession().remove(participant);
+			transaction.commit();
+		} catch (RuntimeException e) {
+			transaction.rollback();
+			throw e;
+		}
+	}
+
+	public void update(Participant participant) {
+		Transaction transaction =
+				connector.getSession().beginTransaction();
+
+		try {
+			connector.getSession().merge(participant);
+			transaction.commit();
+		} catch (RuntimeException e) {
+			transaction.rollback();
+			throw e;
+		}
+	}
+
 }
