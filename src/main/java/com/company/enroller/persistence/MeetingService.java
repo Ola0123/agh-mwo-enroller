@@ -27,4 +27,43 @@ public class MeetingService {
 		return connector.getSession().get(Meeting.class, id);
 	}
 
+	public void save(Meeting meeting) {
+		Transaction transaction =
+				connector.getSession().beginTransaction();
+
+		try {
+			connector.getSession().persist(meeting);
+			transaction.commit();
+		} catch (RuntimeException e) {
+			transaction.rollback();
+			throw e;
+		}
+	}
+
+	public void update(Meeting meeting) {
+		Transaction transaction =
+				connector.getSession().beginTransaction();
+
+		try {
+			connector.getSession().merge(meeting);
+			transaction.commit();
+		} catch (RuntimeException e) {
+			transaction.rollback();
+			throw e;
+		}
+	}
+
+	public void delete(Meeting meeting) {
+		Transaction transaction =
+				connector.getSession().beginTransaction();
+
+		try {
+			connector.getSession().remove(meeting);
+			transaction.commit();
+		} catch (RuntimeException e) {
+			transaction.rollback();
+			throw e;
+		}
+	}
+
 }
